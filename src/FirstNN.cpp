@@ -32,12 +32,10 @@ void FirstNN(const int N, const int D_in, const int H, const int D_out, const in
     device_type = torch::kCPU;
   }
   torch::Device device = device_type;
-//  torch::Device device(torch::kCUDA);
 
-  auto options = torch::TensorOptions().device(device);    
-  torch::Tensor X = torch::from_blob(foo1.data(),{N,D_in},options).to(device);
+  torch::Tensor X = torch::from_blob(foo1.data(),{N,D_in},device_type);
 //  torch::Tensor X = torch::randn({N, D_in}).to(device);
-  torch::Tensor Y = torch::randn({N, D_out}).to(device);
+  torch::Tensor Y = torch::randn({N, D_out},device_type);
   
   TwoLayerNet net(D_in,H,D_out);
   net->to(device);

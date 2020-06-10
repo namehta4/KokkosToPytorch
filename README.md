@@ -21,9 +21,13 @@ To compile and run the code on a GPU, use:
 To compile and run the code on a GPU, use:
 1) mkdir build
 2) cd build/
-3) CC=clang CXX=clang++ cmake -DCMAKE_PREFIX_PATH="/global/homes/n/namehta4/kokkos/install_hsw_serial;/global/homes/n/namehta4/libtorch;/usr/common/software/python/3.7-anaconda-2019.10" ../
+3) CC=clang CXX=clang++ cmake -DCMAKE_PREFIX_PATH="/global/homes/n/namehta4/kokkos/install_hsw_serial;/global/homes/n/namehta4/libtorch" ../
 4) make -j
 5) ./FirstNN'
 
 NOTE: Although the NN written in C++ and python are similar, they are not exactly same. Therefore, output from the two will be different.
+
 Update 06/09/20: Code runs on both CPU and GPU. However, the C++ part of NN throws a seg fault after successfully running the NN.
+Update 06/10/20: Code runs on both CPU and GPU with no errors after ensuring cuda/10.2.89 is linked.
+
+
