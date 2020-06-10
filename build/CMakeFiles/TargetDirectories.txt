@@ -1,3 +1,0 @@
-/global/homes/n/namehta4/Tutorial/Pytorch/Trial12/build/CMakeFiles/edit_cache.dir
-/global/homes/n/namehta4/Tutorial/Pytorch/Trial12/build/CMakeFiles/rebuild_cache.dir
-/global/homes/n/namehta4/Tutorial/Pytorch/Trial12/build/CMakeFiles/FirstNN.dir
