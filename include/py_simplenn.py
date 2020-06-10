@@ -1,9 +1,6 @@
 import torch
 import numpy as np
 
-dtype = torch.float;
-device = torch.device("cuda:0")
-
 class TwoLayerNet(torch.nn.Module):
     def __init__(self, D_in, H, D_out):
         super(TwoLayerNet, self).__init__()
@@ -16,8 +13,16 @@ class TwoLayerNet(torch.nn.Module):
         return y_pred
 
 def run_NN(foo1, N, D_in, H, D_out, tstep):
+    print("*********************************************")
     print("Start python")
-    print(torch.cuda.is_available())
+    dtype = torch.float;
+    if (torch.cuda.is_available() == 1):
+        device = torch.device("cuda:0")
+        print("CUDA is available! Training on GPU")
+    else:
+        device = torch.device("cpu")
+        print("Training on CPU")
+
     foo1 = np.reshape(foo1, (-1,D_in))
 
     x = torch.from_numpy(foo1).to(device)
@@ -31,14 +36,16 @@ def run_NN(foo1, N, D_in, H, D_out, tstep):
     criterion = torch.nn.MSELoss(reduction='sum')
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-4)
 
-    for t in range(tstep):
+    for t in range(tstep+1):
         y_pred = model(x/1e6)
         loss = criterion(y_pred, y)
         if t%100 == 0:
-            print(t, loss.item())
+            print("[%4d/%4d] | D_loss: %12.6e"% (t,tstep,loss.item()))
 
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
+    print("Training complete!")
     print("End python")
+    print("*********************************************")
