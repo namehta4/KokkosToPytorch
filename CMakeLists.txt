@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
-project(FirstNN)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+project(KokkosToPytorch)
 
 # find dependencies
 find_package(Kokkos REQUIRED)
 find_package(Torch REQUIRED)
-find_package(PythonLibs REQUIRED)
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
 # targets
 file(GLOB SOURCES "src/*.cpp")
@@ -19,12 +19,9 @@ set_target_properties(FirstNN PROPERTIES
 )
 
 # link/include
-target_compile_definitions(FirstNN PRIVATE -DCUSTOM_SYS_PATH="${FirstNN_SOURCE_DIR}/include")
+target_compile_definitions(FirstNN PRIVATE -DCUSTOM_SYS_PATH="${KokkosToPytorch_SOURCE_DIR}/include")
 target_include_directories(FirstNN SYSTEM PRIVATE ${PYTHON_INCLUDE_DIRS})
-target_include_directories(FirstNN PRIVATE $<BUILD_INTERFACE:${FirstNN_SOURCE_DIR}/include>)
-target_link_libraries(FirstNN PUBLIC Kokkos::kokkos)
-target_link_libraries(FirstNN PUBLIC "${TORCH_LIBRARIES}")
-
-# hack: assume python 3.7
-string(APPEND CMAKE_EXE_LINKER_FLAGS "-lpython3.7m")
-link_directories(BEFORE /usr/common/software/python/3.7-anaconda-2019.10/lib)
+target_include_directories(FirstNN PRIVATE $<BUILD_INTERFACE:${KokkosToPytorch_SOURCE_DIR}/include>)
+target_link_libraries(FirstNN PRIVATE Kokkos::kokkos)
+target_link_libraries(FirstNN PRIVATE "${TORCH_LIBRARIES}")
+target_link_libraries(FirstNN PRIVATE Python::Python)
