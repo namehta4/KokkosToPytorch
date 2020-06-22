@@ -43,18 +43,18 @@ void FirstNN(const int N, const int D_in, const int H, const int D_out, const in
   torch::optim::Adam optimizer(net->parameters(), torch::optim::AdamOptions(1e-4));
   torch::nn::MSELoss criterion((torch::nn::MSELossOptions(torch::kSum)));
 
-  for(int64_t ts=0;ts<=tstep;++ts)
-  {
-    torch::Tensor Y_pred = net->forward(X);
-    torch::Tensor loss = criterion(Y_pred, Y);
-    if(ts % 100 == 0)
-    {
-      printf("\r[%4ld/%4d] | D_loss: %e \n", ts,tstep,loss.item<float>());
-    }
-    optimizer.zero_grad();
-    loss.backward();
-    optimizer.step();
-  }
+//  for(int64_t ts=0;ts<=tstep;++ts)
+//  {
+//    torch::Tensor Y_pred = net->forward(X);
+//    torch::Tensor loss = criterion(Y_pred, Y);
+//    if(ts % 100 == 0)
+//    {
+//      printf("\r[%4ld/%4d] | D_loss: %e \n", ts,tstep,loss.item<float>());
+//    }
+//    optimizer.zero_grad();
+//    loss.backward();
+//    optimizer.step();
+//  }
   cout << "Training complete!" << endl;
   cout << "End C++" << endl;
   cout << "*********************************************" << endl;;

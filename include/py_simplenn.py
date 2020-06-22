@@ -22,6 +22,7 @@ def run_NN(foo1, N, D_in, H, D_out, tstep):
     else:
         device = torch.device("cpu")
         print("Training on CPU")
+   
 
     foo1 = np.reshape(foo1, (-1,D_in))
 
@@ -36,15 +37,15 @@ def run_NN(foo1, N, D_in, H, D_out, tstep):
     criterion = torch.nn.MSELoss(reduction='sum')
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-4)
 
-    for t in range(tstep+1):
-        y_pred = model(x/1e6)
-        loss = criterion(y_pred, y)
-        if t%100 == 0:
-            print("[%4d/%4d] | D_loss: %12.6e"% (t,tstep,loss.item()))
-
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+#    for t in range(tstep+1):
+#        y_pred = model(x/1e6)
+#        loss = criterion(y_pred, y)
+#        if t%100 == 0:
+#            print("[%4d/%4d] | D_loss: %12.6e"% (t,tstep,loss.item()))
+#
+#        optimizer.zero_grad()
+#        loss.backward()
+#        optimizer.step()
 
     print("Training complete!")
     print("End python")

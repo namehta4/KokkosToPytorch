@@ -10,13 +10,13 @@
 #include<cstdio>
 #include"FirstNN.h"
 
-//The batch size for training
+//Training batch size
 const int64_t N = 64;
-//The input dimension
+//Tensor input dimension
 const int64_t D_in = 1000;
-//The hidden dimension
+//Tensor hidden dimension
 const int64_t H = 100;
-//The output dimension
+//NN output dimension
 const int64_t D_out = 10;
 //Total number of steps
 const int64_t tstep = 1000;
@@ -41,22 +41,19 @@ int main(int argc, char* argv[])
     
     
     View2D foo1("Foo1", N,D_in);
-    h_View2D h_foo1 = Kokkos::create_mirror_view(foo1);
-    
     Kokkos::parallel_for(N*D_in, KOKKOS_LAMBDA(const int iter)
     {
       int i = iter / D_in;
       int j = iter % D_in;
       foo1(i,j) = i*j;
     });
-    Kokkos::deep_copy(h_foo1, foo1);
 
 
-//Calling simple NN implemented in Python
-    py::object ob1 = py_simplenn.attr("run_NN")(py::array_t<double, py::array::c_style | py::array::forcecast>(N*D_in,h_foo1.data()),N,D_in,H,D_out,tstep);
+// Calling simple NN implemented in Python
+    py::object ob1 = py_simplenn.attr("run_NN")(py::array_t<double, py::array::c_style | py::array::forcecast>(N*D_in,foo1.data(),py::str{}),N,D_in,H,D_out,tstep);
     py::gil_scoped_release no_gil;
 
-//Calling simple NN implemented in C++  
+// Calling simple NN implemented in C++  
     FirstNN(N, D_in, H, D_out, tstep, foo1); 
   
   }
