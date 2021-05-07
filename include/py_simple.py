@@ -24,6 +24,8 @@ def add_NN(foo1, N, D_in):
     y = torch.ones(N, D_in, dtype=dtype, device=device)
     y = y+x
     print(y)
+
+    #Objective is to remove the get() from the next line
     foo1 = cp.asarray(y).get()
     
     return foo1

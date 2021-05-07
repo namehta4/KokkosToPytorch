@@ -10,7 +10,7 @@ Modules needed to run this code on Cori:
 To compile and run the code on a GPU, use:
 1) mkdir build
 2) cd build/
-3) CXX=clang++ cmake -DCMAKE_PREFIX_PATH="/usr/common/software/sles15_cgpu/cuda/11.0.3;/global/homes/n/namehta4/libtorch" ../
+3) CXX=clang++ cmake -DCMAKE_PREFIX_PATH="/global/homes/n/namehta4/libtorch" ../
 4) make -j
 5) srun -n 1 ./FirstNN'
 

@@ -10,8 +10,6 @@
 #include<cuda.h>
 #include<cuda_runtime.h>
 
-//  foo2= Kokkos::View<double **, Kokkos::LayoutRight, Kokkos::DefaultExecutionSpace, Kokkos::MemoryTraits<Kokkos::Unmanaged>> (x_1,N,D_in);
-
 using namespace torch;
 using namespace std;
 namespace py = pybind11;
@@ -23,8 +21,6 @@ int main(int argc, char* argv[])
 
   double *d_x, *d_y;
   double* x = new double[N*D_in];
-//  for (int i; i<N; i++)
-//	  x[i] = new double[D_in];
 
   cudaMalloc(&d_x, N*D_in*sizeof(double)); 
 
@@ -46,6 +42,7 @@ int main(int argc, char* argv[])
   x = ob1.cast<py::array_t<double>>().mutable_data();
   cudaMemcpy(d_x, x, N*D_in*sizeof(double), cudaMemcpyHostToDevice);
 
+// Lines commented out below represent the ideal case we want
 //  d_x = ob1.cast<py::array_t<double>>().mutable_data();
 //  cudaDeviceSynchronize();
 //  cudaMemcpy(x,d_x, N*D_in*sizeof(double), cudaMemcpyDeviceToHost);
