@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
-project(KokkosToPytorch)
+cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
+project(KCuToPytorch LANGUAGES CXX)
 
 # find dependencies
-find_package(Kokkos REQUIRED)
 find_package(Torch REQUIRED)
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
-
+find_package(CUDAToolkit REQUIRED)
 # targets
 file(GLOB SOURCES "src/*.cpp")
 add_executable(FirstNN ${SOURCES})
@@ -19,9 +18,9 @@ set_target_properties(FirstNN PROPERTIES
 )
 
 # link/include
-target_compile_definitions(FirstNN PRIVATE -DCUSTOM_SYS_PATH="${KokkosToPytorch_SOURCE_DIR}/include")
+target_compile_definitions(FirstNN PRIVATE -DCUSTOM_SYS_PATH="${KCuToPytorch_SOURCE_DIR}/include")
 target_include_directories(FirstNN SYSTEM PRIVATE ${PYTHON_INCLUDE_DIRS})
-target_include_directories(FirstNN PRIVATE $<BUILD_INTERFACE:${KokkosToPytorch_SOURCE_DIR}/include>)
-target_link_libraries(FirstNN PRIVATE Kokkos::kokkos)
+target_include_directories(FirstNN PRIVATE $<BUILD_INTERFACE:${KCuToPytorch_SOURCE_DIR}/include>)
 target_link_libraries(FirstNN PRIVATE "${TORCH_LIBRARIES}")
 target_link_libraries(FirstNN PRIVATE Python::Python)
+target_link_libraries(FirstNN PRIVATE CUDA::cudart CUDA::cuda_driver rt)
