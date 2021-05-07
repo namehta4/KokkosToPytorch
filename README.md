@@ -1,15 +1,11 @@
-# KokkosToPytorch
-Modules needed to run this code:
-1) PrgEnv-llvm
-2) python/3.7-anaconda
-3) esslurm
-4) cuda/10.2.89
+# CudaToPytorch
+Modules needed to run this code on Cori:
+1) PrgEnv-llvm/12.0.0-git_20210117
+2) cudnn/8.0.5
+3) cgpu
+4) cuda/11.1.1
 5) gcc/8.3.0
-6) pytorch/v1.5.0-gpu
-
-* Ensure that kokkos is present in the home directory. Build install kokkos cuda in kokkos/install_cuda
-* Ensure libtorch files are present in the home directory. Can be obtained using 'wget https://download.pytorch.org/libtorch/cu102/libtorch-cxx11-abi-shared-with-deps-1.5.0.zip'
-* Change lines 9 and 10 in CMakeLists.txt to reflect the location of python installation and python flag 
+6) pytorch/1.8.0-gpu
 
 To compile and run the code on a GPU, use:
 1) mkdir build
