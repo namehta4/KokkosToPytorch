@@ -6,6 +6,7 @@ import numba
 
 print(sys.version)
 
+#def add_NN():
 def add_NN(foo1, N, D_in):
     print("*********************************************")
     print("Start python")
@@ -21,14 +22,16 @@ def add_NN(foo1, N, D_in):
    
     x = torch.as_tensor(foo1, device="cuda")
     print(x)
-    y = torch.ones(N, D_in, dtype=dtype, device=device)
+    y = torch.ones(4, 5, dtype=dtype, device=device)
     y = y+x
     print(y)
 
     #Objective is to remove the get() from the next line
     foo1 = cp.asarray(y).get()
-    
     return foo1
+    
+    #foo1 = cp.asarray(y)
+    #return foo1.data.ptr
 
     print("End python")
     print("*********************************************")
