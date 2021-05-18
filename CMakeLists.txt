@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
-project(KokkosToPytorch)
+cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
+project(KokkosToPytorch LANGUAGES CXX)
 
 # find dependencies
 find_package(Kokkos REQUIRED)
