@@ -1,5 +1,10 @@
 import torch
 import numpy as np
+import numba.cuda
+
+class InterfaceHolder():
+    def __init__(self,cuda_array_interface):
+        self.__cuda_array_interface__ = cuda_array_interface
 
 class TwoLayerNet(torch.nn.Module):
     def __init__(self, D_in, H, D_out):
@@ -23,11 +28,11 @@ def run_NN(foo1, N, D_in, H, D_out, tstep):
         device = torch.device("cpu")
         print("Training on CPU")
    
+    interface = foo1.__array_interface__
+    t = InterfaceHolder(interface)
+    x = torch.as_tensor(t, device=device)
+    x = x.view(N,D_in)
 
-    foo1 = np.reshape(foo1, (-1,D_in))
-
-    x = torch.from_numpy(foo1).to(device)
-    x = x.float()
 #    x = torch.randn(N, D_in, dtype=dtype, device=device)
     y = torch.randn(N, D_out, dtype=dtype, device=device)
     
