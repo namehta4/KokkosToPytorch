@@ -8,18 +8,11 @@
 #include<random>
 #include<cmath>
 #include<cstdio>
-#include"FirstNN.h"
 
 //Training batch size
 const int64_t N = 64;
 //Tensor input dimension
 const int64_t D_in = 1000;
-//Tensor hidden dimension
-const int64_t H = 100;
-//NN output dimension
-const int64_t D_out = 10;
-//Total number of steps
-const int64_t tstep = 1000;
 
 using namespace torch;
 using namespace std;
@@ -34,28 +27,30 @@ int main(int argc, char* argv[])
 {
   Kokkos::initialize(argc, argv);
   {
-    py::scoped_interpreter guard{};
-    py::module sys = py::module::import("sys");
-    sys.attr("path").attr("insert")(1, CUSTOM_SYS_PATH);
-    py::module py_simplenn = py::module::import("py_simplenn");
-    
-    
     View2D foo1("Foo1", N,D_in);
+    h_View2D h_foo1;
+    h_foo1 = create_mirror_view(foo1);
+
     Kokkos::parallel_for(N*D_in, KOKKOS_LAMBDA(const int iter)
     {
       int i = iter / D_in;
       int j = iter % D_in;
       foo1(i,j) = i*j;
     });
+    deep_copy(h_foo1,foo1);
+    printf("Before: Value of foo1(60,60) is %f \n",h_foo1(60,60));
 
 
 // Calling simple NN implemented in Python
-    py::object ob1 = py_simplenn.attr("run_NN")(py::array_t<double, py::array::c_style | py::array::forcecast>(N*D_in,foo1.data(),py::str{}),N,D_in,H,D_out,tstep);
+    py::scoped_interpreter guard{};
+    py::module sys = py::module::import("sys");
+    sys.attr("path").attr("insert")(1, CUSTOM_SYS_PATH);
+    py::module py_simple = py::module::import("py_simple");
+    py::object ob1 = py_simple.attr("add_NN")(py::array_t<double, py::array::c_style | py::array::forcecast>(N*D_in,foo1.data(),py::str{}),N,D_in);
     py::gil_scoped_release no_gil;
-
-// Calling simple NN implemented in C++  
-    FirstNN(N, D_in, H, D_out, tstep, foo1); 
-  
+    
+    deep_copy(h_foo1,foo1);
+    printf("After: Value of foo1(60,60) is %f \n",h_foo1(60,60));
   }
   Kokkos::finalize();
   return 0;
