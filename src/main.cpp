@@ -32,8 +32,6 @@ int main(int argc, char* argv[])
   printf("Before: Value of X at 1,1 is %f \n",x[1*D_in+1]);
 
   cudaMemcpy(d_x, x, N*D_in*sizeof(double), cudaMemcpyHostToDevice);
-  printf("Value of device pointer is %lu\n", d_x);
- 
 
 // Calling simple NN implemented in Python
   pybind11::scoped_interpreter guard{};
@@ -41,13 +39,6 @@ int main(int argc, char* argv[])
   sys.attr("path").attr("insert")(1, CUSTOM_SYS_PATH);
   pybind11::module py_simplenn = pybind11::module::import("py_simple");
   py::object ob1 = py_simplenn.attr("add_NN")(py::array_t<double, py::array::c_style | py::array::forcecast>(N*D_in,d_x,py::str{}),N,D_in);
-  //py::object ob1 = py_simplenn.attr("add_NN")();
-
-//  x = ob1.cast<py::array_t<double>>().mutable_data();
-//  cudaMemcpy(d_x, x, N*D_in*sizeof(double), cudaMemcpyHostToDevice);
-
-// Lines commented out below represent the ideal case we want
-//  d_x = ob1.cast<py::array_t<double>>().mutable_data();
   
   cudaDeviceSynchronize();
   cudaMemcpy(x,d_x, N*D_in*sizeof(double), cudaMemcpyDeviceToHost);
