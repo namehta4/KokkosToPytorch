@@ -1,10 +1,6 @@
 import numpy as np
 import torch
-import sys
-import cupy as cp
-import numba.cuda
-
-print(sys.version)
+import numba
 
 class InterfaceHolder():
     def __init__(self,cuda_array_interface):
