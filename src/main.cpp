@@ -1,4 +1,4 @@
-#include<torch/torch.h>
+#include<hip/hip_runtime.h>
 #include<pybind11/pybind11.h>
 #include<pybind11/numpy.h>
 #include<pybind11/embed.h>
@@ -14,7 +14,6 @@ const int64_t N = 64;
 //Tensor input dimension
 const int64_t D_in = 1000;
 
-using namespace torch;
 using namespace std;
 namespace py = pybind11;
 

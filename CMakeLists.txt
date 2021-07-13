@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 project(KokkosToPytorch LANGUAGES CXX)
 
 # find dependencies
+add_subdirectory(/home/users/coe0221/KokkosToPytorch/pybind11)
 find_package(Kokkos REQUIRED)
-find_package(Torch REQUIRED)
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
 # targets
@@ -23,5 +23,5 @@ target_compile_definitions(FirstNN PRIVATE -DCUSTOM_SYS_PATH="${KokkosToPytorch_
 target_include_directories(FirstNN SYSTEM PRIVATE ${PYTHON_INCLUDE_DIRS})
 target_include_directories(FirstNN PRIVATE $<BUILD_INTERFACE:${KokkosToPytorch_SOURCE_DIR}/include>)
 target_link_libraries(FirstNN PRIVATE Kokkos::kokkos)
-target_link_libraries(FirstNN PRIVATE "${TORCH_LIBRARIES}")
+target_link_libraries(FirstNN PRIVATE pybind11::headers)
 target_link_libraries(FirstNN PRIVATE Python::Python)
