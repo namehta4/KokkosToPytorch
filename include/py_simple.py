@@ -12,7 +12,7 @@ def add_NN(foo1, N, D_in):
     dtype = torch.float;
     if (torch.cuda.is_available() == 1):
         device = torch.device("cuda:0")
-        print("CUDA is available! Training on GPU")
+        print("HIP is available! Training on GPU")
     else:
         device = torch.device("cpu")
         print("Training on CPU")
