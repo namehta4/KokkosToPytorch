@@ -1,4 +1,3 @@
-#include<hip/hip_runtime.h>
 #include<pybind11/pybind11.h>
 #include<pybind11/numpy.h>
 #include<pybind11/embed.h>
@@ -8,6 +7,15 @@
 #include<random>
 #include<cmath>
 #include<cstdio>
+
+#if defined(KOKKOS_ENABLE_CUDA)
+#include<cuda.h>
+#include<cuda_runtime.h>
+#endif
+
+#if defined(KOKKOS_ENABLE_HIP)
+#include<hip/hip_runtime.h>
+#endif
 
 //Training batch size
 const int64_t N = 64;

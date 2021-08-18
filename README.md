@@ -14,7 +14,7 @@ Modules needed to run this code on Cori:
 To compile and run the code on a GPU, use:
 1) mkdir build
 2) cd build/
-3) CXX=/global/homes/n/namehta4/kokkos/install_cuda_reg/bin/nvcc_wrapper cmake -DCMAKE_PREFIX_PATH="/global/homes/n/namehta4/kokkos/install_cuda_reg" ../
+3) CXX=/global/homes/n/namehta4/kokkos/install_cuda/bin/nvcc_wrapper cmake -DCMAKE_PREFIX_PATH="/global/homes/n/namehta4/kokkos/install_cuda" ../
 4) make -j4
 5) srun -n 1 ./FirstNN
 

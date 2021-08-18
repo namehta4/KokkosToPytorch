@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 project(KokkosToPytorch LANGUAGES CXX)
 
 # find dependencies
-add_subdirectory(/home/users/coe0221/KokkosToPytorch/pybind11)
+add_subdirectory(${KokkosToPytorch_SOURCE_DIR}/pybind11)
 find_package(Kokkos REQUIRED)
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
