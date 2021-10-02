@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 project(KCuToPytorch LANGUAGES CXX)
 
 # find dependencies
-find_package(Torch REQUIRED)
+add_subdirectory(${KCuToPytorch_SOURCE_DIR}/pybind11)
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 find_package(CUDAToolkit REQUIRED)
 # targets
@@ -21,6 +21,6 @@ set_target_properties(FirstNN PROPERTIES
 target_compile_definitions(FirstNN PRIVATE -DCUSTOM_SYS_PATH="${KCuToPytorch_SOURCE_DIR}/include")
 target_include_directories(FirstNN SYSTEM PRIVATE ${PYTHON_INCLUDE_DIRS})
 target_include_directories(FirstNN PRIVATE $<BUILD_INTERFACE:${KCuToPytorch_SOURCE_DIR}/include>)
-target_link_libraries(FirstNN PRIVATE "${TORCH_LIBRARIES}")
+target_link_libraries(FirstNN PRIVATE pybind11::headers)
 target_link_libraries(FirstNN PRIVATE Python::Python)
 target_link_libraries(FirstNN PRIVATE CUDA::cudart CUDA::cuda_driver rt)

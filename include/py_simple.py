@@ -1,8 +1,6 @@
 import numpy as np
 import torch
 import sys
-import cupy as cp
-import numba.cuda
 
 print(sys.version)
 
