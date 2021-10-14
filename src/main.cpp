@@ -9,9 +9,7 @@
 #include<cuda.h>
 #include<cuda_runtime.h>
 
-using namespace std;
-
-int main(int argc, char* argv[])
+int py2k2py()
 {
   int N = 4;
   int D_in = 5;
@@ -31,7 +29,7 @@ int main(int argc, char* argv[])
   cudaMemcpy(d_x, x, N*D_in*sizeof(double), cudaMemcpyHostToDevice);
 
 // Calling simple NN implemented in Python
-  pybind11::scoped_interpreter guard{};
+//  pybind11::scoped_interpreter guard{};
   pybind11::module sys = pybind11::module::import("sys");
   sys.attr("path").attr("insert")(1, CUSTOM_SYS_PATH);
   pybind11::module py_simplenn = pybind11::module::import("py_simple");
@@ -49,4 +47,11 @@ int main(int argc, char* argv[])
 return 0;
 }
 
+using namespace std;
+
+PYBIND11_MODULE(main, m)
+{
+  m.doc() = "pybind11 py2k2py plugin";
+  m.def("py2k2py", &py2k2py, "Python 2 kokkos 2 python");
+}
 
