@@ -22,7 +22,7 @@ def add_NN(foo1, N, D_in):
     interface=foo1.__array_interface__
     t = InterfaceHolder(interface)
     x = torch.as_tensor(t, device=device)
-    x = x.view(4,5)
+    x = x.view(N,D_in)
     
     y = torch.ones(N,D_in,device=device)
     x[:] = x+y
