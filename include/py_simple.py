@@ -26,6 +26,7 @@ def add_NN(foo1, N, D_in):
     
     y = torch.ones(N,D_in,device=device)
     x[:] = x+y
+    torch.cuda.synchronize
 
     return None
 

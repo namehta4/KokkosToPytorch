@@ -10,7 +10,7 @@ Modules needed to run this code on Cori:
 To compile and run the code on a GPU, use:
 1) mkdir build
 2) cd build/
-3) CXX=clang++ cmake ../
+3) CXX=/global/homes/n/namehta4/kokkos/install_fpic_cuda/bin/nvcc_wrapper cmake -DCMAKE_PREFIX_PATH="/global/homes/n/namehta4/kokkos/install_fpic_cuda" ../
 4) make -j
 5) srun -n 1 ./FirstNN'
 
