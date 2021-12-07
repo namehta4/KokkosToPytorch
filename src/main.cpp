@@ -9,11 +9,19 @@
 #include<cuda.h>
 #include<cuda_runtime.h>
 
-int py2k2py()
+int py2k2py(pybind11::array_t<double> pyrij)
 {
   int N = 4;
   int D_in = 5;
 
+  pybind11::buffer_info buf1 = pyrij.request();
+  double *rij;
+  double* h_rij = new double[3*3]; 
+  cudaMalloc(&rij, 3*3*sizeof(double)); 
+
+  h_rij = static_cast<double *>(buf1.ptr);
+  cudaMemcpy(rij, h_rij, 3*3*sizeof(double), cudaMemcpyHostToDevice);
+  
   double *d_x, *d_y;
   double* x = new double[N*D_in];
   double* y = new double[N*D_in];
@@ -41,6 +49,8 @@ int py2k2py()
   cudaMemcpy(x,d_x, N*D_in*sizeof(double), cudaMemcpyDeviceToHost);
   printf("After: Value of X at 1,1 is %f \n",x[1*D_in+1]);
   
+  cudaFree(rij);
+  free(h_rij);
   cudaFree(d_x);
   free(x);
   free(y);
